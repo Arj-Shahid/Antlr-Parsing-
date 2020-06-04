@@ -1,12 +1,17 @@
 import org.antlr.v4.runtime.tree.ParseTree;
 
+import java.util.ArrayList;
+
 public class ModifiedBaseListener extends ModifiedCPP14GrammarBaseListener {
     @Override
     public void enterSimpleProgram(ModifiedCPP14GrammarParser.SimpleProgramContext ctx) {
         super.enterSimpleProgram(ctx);
+        ArrayList<String> identifierNamesFromContext = new ArrayList<String>();
         for (ParseTree parseTree : ctx.children) {
-            if(!ctx.children.contains(parseTree.getText())) {
+
+            if(!identifierNamesFromContext.contains(parseTree.getText())) {
                 System.out.println(parseTree.getText());
+                identifierNamesFromContext.add(parseTree.getText());
             }
         }
     }
