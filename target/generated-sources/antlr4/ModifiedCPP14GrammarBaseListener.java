@@ -15,13 +15,25 @@ public class ModifiedCPP14GrammarBaseListener implements ModifiedCPP14GrammarLis
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterIdentifierNames(ModifiedCPP14GrammarParser.IdentifierNamesContext ctx) { }
+	@Override public void enterSimpleProgram(ModifiedCPP14GrammarParser.SimpleProgramContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitIdentifierNames(ModifiedCPP14GrammarParser.IdentifierNamesContext ctx) { }
+	@Override public void exitSimpleProgram(ModifiedCPP14GrammarParser.SimpleProgramContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterIdentifierdigit(ModifiedCPP14GrammarParser.IdentifierdigitContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitIdentifierdigit(ModifiedCPP14GrammarParser.IdentifierdigitContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

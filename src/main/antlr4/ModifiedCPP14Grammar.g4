@@ -1,24 +1,29 @@
+/*
 grammar ModifiedCPP14Grammar;
 
+programDefinition:
+functionDefinition  EOF;
 
-identifierNames
-:
-  Identifier
- | identifierNames Comma Identifier
- ;
+functionDefinition:
+returnType methodName argumentType functionBodyWithBrackets;
 
-Identifier
-:
- (  Datatypes
-  | Identifiernondigit
-  | DIGIT
- )*
-;
+functionBodyWithBrackets:
+OpenCurlyBracket  functionbodyWithoutBrackets CloseCurlyBracket  ;
 
-Comma :
-',' ;
+functionbodyWithoutBrackets:
+(Datatypes|Identifiernondigit|Equals|DIGIT SemiColon functionbodyWithoutBrackets)*;
 
-fragment Identifiernondigit
+returnType:
+Datatypes | Identifiernondigit ;
+
+methodName:
+Identifiernondigit;
+
+
+argumentType:
+ '('(Datatypes Whitespace Identifiernondigit)*')';
+
+Identifiernondigit
    : NONDIGIT
    ;
 
@@ -45,43 +50,194 @@ Hashtag
 Includedirective
     : 'include'  -> skip
     ;
-
 Datatypes
-:   Char
+:   ( Char
      | Bool
      | Int
      | Long
      | Float
-     | Double
+     | Double )
      ;
 
-Char
-   : 'char' -> skip
+fragment Char
+   : 'char'
    ;
 
-Bool
-   : 'bool' -> skip
+fragment Bool
+   : 'bool'
    ;
 
-Double
-   : 'double' -> skip
+fragment Double
+   : 'double'
    ;
 
-Float
-   : 'float' -> skip
+fragment Float
+   : 'float'
    ;
 
-Int
-   : 'int' -> skip
+fragment Int
+   : 'int'
    ;
 
-Long
-   : 'long' -> skip
+fragment Long
+   : 'long'
    ;
 
-Braces
- : ('('
- | ')'
- | '{'
- | '}'  ) -> skip
- ;
+
+
+MultiLineMacro
+    : '#' .*? -> skip
+    ;
+
+Directive
+    : '#' ~ [\n]* -> skip
+    ;
+
+fragment Equals
+:
+'='
+;
+
+fragment OpenRoundBracket
+:
+'('
+;
+
+fragment CloseRoundBracket
+:
+')'
+;
+
+fragment OpenCurlyBracket
+:
+'{'
+;
+
+fragment CloseCurlyBracket
+:
+'}'
+;
+
+fragment SemiColon:
+';'
+;*/
+
+grammar ModifiedCPP14Grammar;
+
+simpleProgram:
+(IdentifierDigit| Identifiernondigit )+ simpleProgram | EOF;
+
+
+Datatypes
+:   ( Char
+     | Bool
+     | Int
+     | Long
+     | Float
+     | Double ) -> skip
+     ;
+
+fragment Char
+   : 'char'
+   ;
+
+fragment Bool
+   : 'bool'
+   ;
+
+fragment Double
+   : 'double'
+   ;
+
+fragment Float
+   : 'float'
+   ;
+
+fragment Int
+   : 'int'
+   ;
+
+fragment Long
+   : 'long'
+   ;
+
+Whitespace
+   : [ \t]+ -> skip
+   ;
+
+Keywords:
+('new'
+    | 'class'
+    | 'this'
+    | 'return' )   -> skip;
+
+Identifiernondigit
+   : Keywords
+   | NONDIGIT
+   ;
+
+identifierdigit
+: DIGIT;
+
+fragment DIGIT
+   : [0-9]+ -> skip
+   ;
+
+fragment NONDIGIT
+   : [a-zA-Z_]+
+   ;
+
+
+OpenRoundBracket
+:
+'(' -> skip
+;
+
+CloseRoundBracket
+:
+')' -> skip
+;
+
+OpenCurlyBracket
+:
+'{' -> skip
+;
+
+CloseCurlyBracket
+:
+'}' -> skip
+;
+
+Newline
+   : ('\r' '\n'? | '\n') -> skip
+   ;
+
+Symbols:
+('='
+ | '*'
+ | '+'
+ | '-'
+ | '>'
+ | ':'
+ | '~'
+ | '&'
+ | ',' ) -> skip;
+
+Semicolon:
+';' -> skip ;
+
+MultiLineMacro
+    : '#' .*? -> skip
+    ;
+
+Directive
+    : '#' ~ [\n]* -> skip
+    ;
+
+BlockComment
+   : '/*' .*? '*/' -> skip
+   ;
+
+LineComment
+   : '//' ~ [\r\n]* -> skip
+   ;

@@ -16,21 +16,25 @@ public class ModifiedCPP14GrammarParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		Identifier=1, Comma=2, Whitespace=3, Newline=4, Hashtag=5, Includedirective=6, 
-		Datatypes=7, Char=8, Bool=9, Double=10, Float=11, Int=12, Long=13, Braces=14;
+		Datatypes=1, Whitespace=2, Keywords=3, Identifiernondigit=4, OpenRoundBracket=5, 
+		CloseRoundBracket=6, OpenCurlyBracket=7, CloseCurlyBracket=8, Newline=9, 
+		Symbols=10, Semicolon=11, MultiLineMacro=12, Directive=13, BlockComment=14, 
+		LineComment=15, IdentifierDigit=16, DIGIT=17;
 	public static final int
-		RULE_identifierNames = 0;
+		RULE_simpleProgram = 0, RULE_identifierdigit = 1;
 	public static final String[] ruleNames = {
-		"identifierNames"
+		"simpleProgram", "identifierdigit"
 	};
 
 	private static final String[] _LITERAL_NAMES = {
-		null, null, "','", null, null, "'#'", "'include'", null, "'char'", "'bool'", 
-		"'double'", "'float'", "'int'", "'long'"
+		null, null, null, null, null, "'('", "')'", "'{'", "'}'", null, null, 
+		"';'"
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
-		null, "Identifier", "Comma", "Whitespace", "Newline", "Hashtag", "Includedirective", 
-		"Datatypes", "Char", "Bool", "Double", "Float", "Int", "Long", "Braces"
+		null, "Datatypes", "Whitespace", "Keywords", "Identifiernondigit", "OpenRoundBracket", 
+		"CloseRoundBracket", "OpenCurlyBracket", "CloseCurlyBracket", "Newline", 
+		"Symbols", "Semicolon", "MultiLineMacro", "Directive", "BlockComment", 
+		"LineComment", "IdentifierDigit", "DIGIT"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
@@ -81,70 +85,87 @@ public class ModifiedCPP14GrammarParser extends Parser {
 		super(input);
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
-	public static class IdentifierNamesContext extends ParserRuleContext {
-		public TerminalNode Identifier() { return getToken(ModifiedCPP14GrammarParser.Identifier, 0); }
-		public IdentifierNamesContext identifierNames() {
-			return getRuleContext(IdentifierNamesContext.class,0);
+	public static class SimpleProgramContext extends ParserRuleContext {
+		public SimpleProgramContext simpleProgram() {
+			return getRuleContext(SimpleProgramContext.class,0);
 		}
-		public TerminalNode Comma() { return getToken(ModifiedCPP14GrammarParser.Comma, 0); }
-		public IdentifierNamesContext(ParserRuleContext parent, int invokingState) {
+		public List<TerminalNode> IdentifierDigit() { return getTokens(ModifiedCPP14GrammarParser.IdentifierDigit); }
+		public TerminalNode IdentifierDigit(int i) {
+			return getToken(ModifiedCPP14GrammarParser.IdentifierDigit, i);
+		}
+		public List<TerminalNode> Identifiernondigit() { return getTokens(ModifiedCPP14GrammarParser.Identifiernondigit); }
+		public TerminalNode Identifiernondigit(int i) {
+			return getToken(ModifiedCPP14GrammarParser.Identifiernondigit, i);
+		}
+		public TerminalNode EOF() { return getToken(ModifiedCPP14GrammarParser.EOF, 0); }
+		public SimpleProgramContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_identifierNames; }
+		@Override public int getRuleIndex() { return RULE_simpleProgram; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof ModifiedCPP14GrammarListener ) ((ModifiedCPP14GrammarListener)listener).enterIdentifierNames(this);
+			if ( listener instanceof ModifiedCPP14GrammarListener ) ((ModifiedCPP14GrammarListener)listener).enterSimpleProgram(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof ModifiedCPP14GrammarListener ) ((ModifiedCPP14GrammarListener)listener).exitIdentifierNames(this);
+			if ( listener instanceof ModifiedCPP14GrammarListener ) ((ModifiedCPP14GrammarListener)listener).exitSimpleProgram(this);
 		}
 	}
 
-	public final IdentifierNamesContext identifierNames() throws RecognitionException {
-		return identifierNames(0);
-	}
-
-	private IdentifierNamesContext identifierNames(int _p) throws RecognitionException {
-		ParserRuleContext _parentctx = _ctx;
-		int _parentState = getState();
-		IdentifierNamesContext _localctx = new IdentifierNamesContext(_ctx, _parentState);
-		IdentifierNamesContext _prevctx = _localctx;
-		int _startState = 0;
-		enterRecursionRule(_localctx, 0, RULE_identifierNames, _p);
+	public final SimpleProgramContext simpleProgram() throws RecognitionException {
+		SimpleProgramContext _localctx = new SimpleProgramContext(_ctx, getState());
+		enterRule(_localctx, 0, RULE_simpleProgram);
+		int _la;
 		try {
 			int _alt;
-			enterOuterAlt(_localctx, 1);
-			{
-			{
-			setState(3);
-			match(Identifier);
-			}
-			_ctx.stop = _input.LT(-1);
-			setState(10);
+			setState(11);
 			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,0,_ctx);
-			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
-				if ( _alt==1 ) {
-					if ( _parseListeners!=null ) triggerExitRuleEvent();
-					_prevctx = _localctx;
-					{
-					{
-					_localctx = new IdentifierNamesContext(_parentctx, _parentState);
-					pushNewRecursionContext(_localctx, _startState, RULE_identifierNames);
-					setState(5);
-					if (!(precpred(_ctx, 1))) throw new FailedPredicateException(this, "precpred(_ctx, 1)");
-					setState(6);
-					match(Comma);
-					setState(7);
-					match(Identifier);
-					}
-					} 
-				}
-				setState(12);
+			switch (_input.LA(1)) {
+			case Identifiernondigit:
+			case IdentifierDigit:
+				enterOuterAlt(_localctx, 1);
+				{
+				setState(5); 
 				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,0,_ctx);
-			}
+				_alt = 1;
+				do {
+					switch (_alt) {
+					case 1:
+						{
+						{
+						setState(4);
+						_la = _input.LA(1);
+						if ( !(_la==Identifiernondigit || _la==IdentifierDigit) ) {
+						_errHandler.recoverInline(this);
+						}
+						else {
+							if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
+							_errHandler.reportMatch(this);
+							consume();
+						}
+						}
+						}
+						break;
+					default:
+						throw new NoViableAltException(this);
+					}
+					setState(7); 
+					_errHandler.sync(this);
+					_alt = getInterpreter().adaptivePredict(_input,0,_ctx);
+				} while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER );
+				setState(9);
+				simpleProgram();
+				}
+				break;
+			case EOF:
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(10);
+				match(EOF);
+				}
+				break;
+			default:
+				throw new NoViableAltException(this);
 			}
 		}
 		catch (RecognitionException re) {
@@ -153,32 +174,55 @@ public class ModifiedCPP14GrammarParser extends Parser {
 			_errHandler.recover(this, re);
 		}
 		finally {
-			unrollRecursionContexts(_parentctx);
+			exitRule();
 		}
 		return _localctx;
 	}
 
-	public boolean sempred(RuleContext _localctx, int ruleIndex, int predIndex) {
-		switch (ruleIndex) {
-		case 0:
-			return identifierNames_sempred((IdentifierNamesContext)_localctx, predIndex);
+	public static class IdentifierdigitContext extends ParserRuleContext {
+		public TerminalNode DIGIT() { return getToken(ModifiedCPP14GrammarParser.DIGIT, 0); }
+		public IdentifierdigitContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
 		}
-		return true;
+		@Override public int getRuleIndex() { return RULE_identifierdigit; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof ModifiedCPP14GrammarListener ) ((ModifiedCPP14GrammarListener)listener).enterIdentifierdigit(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof ModifiedCPP14GrammarListener ) ((ModifiedCPP14GrammarListener)listener).exitIdentifierdigit(this);
+		}
 	}
-	private boolean identifierNames_sempred(IdentifierNamesContext _localctx, int predIndex) {
-		switch (predIndex) {
-		case 0:
-			return precpred(_ctx, 1);
+
+	public final IdentifierdigitContext identifierdigit() throws RecognitionException {
+		IdentifierdigitContext _localctx = new IdentifierdigitContext(_ctx, getState());
+		enterRule(_localctx, 2, RULE_identifierdigit);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(13);
+			match(DIGIT);
+			}
 		}
-		return true;
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\20\20\4\2\t\2\3\2"+
-		"\3\2\3\2\3\2\3\2\3\2\7\2\13\n\2\f\2\16\2\16\13\2\3\2\2\3\2\3\2\2\2\2\17"+
-		"\2\4\3\2\2\2\4\5\b\2\1\2\5\6\7\3\2\2\6\f\3\2\2\2\7\b\f\3\2\2\b\t\7\4\2"+
-		"\2\t\13\7\3\2\2\n\7\3\2\2\2\13\16\3\2\2\2\f\n\3\2\2\2\f\r\3\2\2\2\r\3"+
-		"\3\2\2\2\16\f\3\2\2\2\3\f";
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\23\22\4\2\t\2\4\3"+
+		"\t\3\3\2\6\2\b\n\2\r\2\16\2\t\3\2\3\2\5\2\16\n\2\3\3\3\3\3\3\2\2\4\2\4"+
+		"\2\3\4\2\6\6\22\22\2\21\2\r\3\2\2\2\4\17\3\2\2\2\6\b\t\2\2\2\7\6\3\2\2"+
+		"\2\b\t\3\2\2\2\t\7\3\2\2\2\t\n\3\2\2\2\n\13\3\2\2\2\13\16\5\2\2\2\f\16"+
+		"\7\2\2\3\r\7\3\2\2\2\r\f\3\2\2\2\16\3\3\2\2\2\17\20\7\23\2\2\20\5\3\2"+
+		"\2\2\4\t\r";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

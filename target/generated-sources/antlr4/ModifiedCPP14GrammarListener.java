@@ -7,13 +7,23 @@ import org.antlr.v4.runtime.tree.ParseTreeListener;
  */
 public interface ModifiedCPP14GrammarListener extends ParseTreeListener {
 	/**
-	 * Enter a parse tree produced by {@link ModifiedCPP14GrammarParser#identifierNames}.
+	 * Enter a parse tree produced by {@link ModifiedCPP14GrammarParser#simpleProgram}.
 	 * @param ctx the parse tree
 	 */
-	void enterIdentifierNames(ModifiedCPP14GrammarParser.IdentifierNamesContext ctx);
+	void enterSimpleProgram(ModifiedCPP14GrammarParser.SimpleProgramContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link ModifiedCPP14GrammarParser#identifierNames}.
+	 * Exit a parse tree produced by {@link ModifiedCPP14GrammarParser#simpleProgram}.
 	 * @param ctx the parse tree
 	 */
-	void exitIdentifierNames(ModifiedCPP14GrammarParser.IdentifierNamesContext ctx);
+	void exitSimpleProgram(ModifiedCPP14GrammarParser.SimpleProgramContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ModifiedCPP14GrammarParser#identifierdigit}.
+	 * @param ctx the parse tree
+	 */
+	void enterIdentifierdigit(ModifiedCPP14GrammarParser.IdentifierdigitContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ModifiedCPP14GrammarParser#identifierdigit}.
+	 * @param ctx the parse tree
+	 */
+	void exitIdentifierdigit(ModifiedCPP14GrammarParser.IdentifierdigitContext ctx);
 }
