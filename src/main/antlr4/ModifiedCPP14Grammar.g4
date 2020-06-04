@@ -169,7 +169,12 @@ Keywords:
 ('new'
     | 'class'
     | 'this'
-    | 'return' )   -> skip;
+    | 'return'
+    | 'if'
+    | 'else'
+    | 'while'
+    | 'for'
+    | 'case')   -> skip;
 
 Identifiernondigit
    : Keywords
