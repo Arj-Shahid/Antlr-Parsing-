@@ -125,7 +125,7 @@ fragment SemiColon:
 grammar ModifiedCPP14Grammar;
 
 simpleProgram:
-(IdentifierDigit| Identifiernondigit )+ simpleProgram | EOF;
+(Identifiernondigit )+ simpleProgram | EOF;
 
 
 Datatypes
@@ -134,7 +134,9 @@ Datatypes
      | Int
      | Long
      | Float
-     | Double ) -> skip
+     | Double
+     | Unsigned
+     | String) -> skip
      ;
 
 fragment Char
@@ -161,6 +163,18 @@ fragment Long
    : 'long'
    ;
 
+fragment Unsigned
+    : 'unsigned'
+    ;
+
+fragment Signed
+    : 'signed'
+    ;
+
+fragment String
+    : 'string'
+    ;
+
 Whitespace
    : [ \t]+ -> skip
    ;
@@ -174,24 +188,35 @@ Keywords:
     | 'else'
     | 'while'
     | 'for'
-    | 'case')   -> skip;
+    | 'case'
+    | 'using'
+    | 'namespace'
+    | 'std'
+    | 'static'
+    | 'NULL'
+    | 'true'
+    | 'false'
+    | 'const'
+    | 'void' )   -> skip;
 
 Identifiernondigit
-   : Keywords
-   | NONDIGIT
+   : NONDIGIT
+   | Keywords
    ;
 
 identifierdigit
 : DIGIT;
 
-fragment DIGIT
+DIGIT
    : [0-9]+ -> skip
    ;
 
 fragment NONDIGIT
-   : [a-zA-Z_]+
+   : AlphaNum*
    ;
 
+fragment AlphaNum
+   : 'a'..'z' | 'A' .. 'Z' | '0'..'9';
 
 OpenRoundBracket
 :
@@ -219,14 +244,60 @@ Newline
 
 Symbols:
 ('='
- | '*'
- | '+'
- | '-'
- | '>'
- | ':'
- | '~'
- | '&'
- | ',' ) -> skip;
+    | '+'
+    | '-'
+    | '*'
+    | '/'
+    | '%'
+    | '^'
+    | '&'
+    | '|'
+    | '~'
+    | '!'
+    | 'not'
+    | '<'
+    | '>'
+    | '=='
+    | '!='
+    | '<='
+    | '>='
+    | '&&'
+    | 'and'
+    | '||'
+    | 'or'
+    | '++'
+    | '--'
+    | ','
+    | '->*'
+    | '->'
+    | '(' ')'
+    | '[' ']'
+    | '+='
+    | '-='
+    | '*='
+    | '/='
+    | '%='
+    | '^='
+    | '&='
+    | '|='
+    | '<<'
+    | '>>'
+    | '<<='
+    | '>>='
+    | '?'
+    | ':'
+    | '::'
+    | '.'
+    | '.*'
+    | '...'
+    | '->*'
+    | '->'
+    | '\''
+    | '"' ) -> skip;
+
+
+Array:
+('[' .*? ']') -> skip;
 
 Semicolon:
 ';' -> skip ;

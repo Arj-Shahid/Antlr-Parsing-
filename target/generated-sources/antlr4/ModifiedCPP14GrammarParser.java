@@ -16,10 +16,10 @@ public class ModifiedCPP14GrammarParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		Datatypes=1, Whitespace=2, Keywords=3, Identifiernondigit=4, OpenRoundBracket=5, 
-		CloseRoundBracket=6, OpenCurlyBracket=7, CloseCurlyBracket=8, Newline=9, 
-		Symbols=10, Semicolon=11, MultiLineMacro=12, Directive=13, BlockComment=14, 
-		LineComment=15, IdentifierDigit=16, DIGIT=17;
+		Datatypes=1, Whitespace=2, Keywords=3, Identifiernondigit=4, DIGIT=5, 
+		OpenRoundBracket=6, CloseRoundBracket=7, OpenCurlyBracket=8, CloseCurlyBracket=9, 
+		Newline=10, Symbols=11, Array=12, Semicolon=13, MultiLineMacro=14, Directive=15, 
+		BlockComment=16, LineComment=17;
 	public static final int
 		RULE_simpleProgram = 0, RULE_identifierdigit = 1;
 	public static final String[] ruleNames = {
@@ -27,14 +27,14 @@ public class ModifiedCPP14GrammarParser extends Parser {
 	};
 
 	private static final String[] _LITERAL_NAMES = {
-		null, null, null, null, null, "'('", "')'", "'{'", "'}'", null, null, 
-		"';'"
+		null, null, null, null, null, null, "'('", "')'", "'{'", "'}'", null, 
+		null, null, "';'"
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
-		null, "Datatypes", "Whitespace", "Keywords", "Identifiernondigit", "OpenRoundBracket", 
-		"CloseRoundBracket", "OpenCurlyBracket", "CloseCurlyBracket", "Newline", 
-		"Symbols", "Semicolon", "MultiLineMacro", "Directive", "BlockComment", 
-		"LineComment", "IdentifierDigit", "DIGIT"
+		null, "Datatypes", "Whitespace", "Keywords", "Identifiernondigit", "DIGIT", 
+		"OpenRoundBracket", "CloseRoundBracket", "OpenCurlyBracket", "CloseCurlyBracket", 
+		"Newline", "Symbols", "Array", "Semicolon", "MultiLineMacro", "Directive", 
+		"BlockComment", "LineComment"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
@@ -89,10 +89,6 @@ public class ModifiedCPP14GrammarParser extends Parser {
 		public SimpleProgramContext simpleProgram() {
 			return getRuleContext(SimpleProgramContext.class,0);
 		}
-		public List<TerminalNode> IdentifierDigit() { return getTokens(ModifiedCPP14GrammarParser.IdentifierDigit); }
-		public TerminalNode IdentifierDigit(int i) {
-			return getToken(ModifiedCPP14GrammarParser.IdentifierDigit, i);
-		}
 		public List<TerminalNode> Identifiernondigit() { return getTokens(ModifiedCPP14GrammarParser.Identifiernondigit); }
 		public TerminalNode Identifiernondigit(int i) {
 			return getToken(ModifiedCPP14GrammarParser.Identifiernondigit, i);
@@ -115,14 +111,12 @@ public class ModifiedCPP14GrammarParser extends Parser {
 	public final SimpleProgramContext simpleProgram() throws RecognitionException {
 		SimpleProgramContext _localctx = new SimpleProgramContext(_ctx, getState());
 		enterRule(_localctx, 0, RULE_simpleProgram);
-		int _la;
 		try {
 			int _alt;
 			setState(11);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case Identifiernondigit:
-			case IdentifierDigit:
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(5); 
@@ -134,15 +128,7 @@ public class ModifiedCPP14GrammarParser extends Parser {
 						{
 						{
 						setState(4);
-						_la = _input.LA(1);
-						if ( !(_la==Identifiernondigit || _la==IdentifierDigit) ) {
-						_errHandler.recoverInline(this);
-						}
-						else {
-							if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-							_errHandler.reportMatch(this);
-							consume();
-						}
+						match(Identifiernondigit);
 						}
 						}
 						break;
@@ -219,10 +205,9 @@ public class ModifiedCPP14GrammarParser extends Parser {
 	public static final String _serializedATN =
 		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\23\22\4\2\t\2\4\3"+
 		"\t\3\3\2\6\2\b\n\2\r\2\16\2\t\3\2\3\2\5\2\16\n\2\3\3\3\3\3\3\2\2\4\2\4"+
-		"\2\3\4\2\6\6\22\22\2\21\2\r\3\2\2\2\4\17\3\2\2\2\6\b\t\2\2\2\7\6\3\2\2"+
-		"\2\b\t\3\2\2\2\t\7\3\2\2\2\t\n\3\2\2\2\n\13\3\2\2\2\13\16\5\2\2\2\f\16"+
-		"\7\2\2\3\r\7\3\2\2\2\r\f\3\2\2\2\16\3\3\2\2\2\17\20\7\23\2\2\20\5\3\2"+
-		"\2\2\4\t\r";
+		"\2\2\2\21\2\r\3\2\2\2\4\17\3\2\2\2\6\b\7\6\2\2\7\6\3\2\2\2\b\t\3\2\2\2"+
+		"\t\7\3\2\2\2\t\n\3\2\2\2\n\13\3\2\2\2\13\16\5\2\2\2\f\16\7\2\2\3\r\7\3"+
+		"\2\2\2\r\f\3\2\2\2\16\3\3\2\2\2\17\20\7\7\2\2\20\5\3\2\2\2\4\t\r";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

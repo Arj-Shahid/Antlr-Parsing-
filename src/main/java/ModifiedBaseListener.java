@@ -1,19 +1,34 @@
 import org.antlr.v4.runtime.tree.ParseTree;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class ModifiedBaseListener extends ModifiedCPP14GrammarBaseListener {
+    //For writing parsed output to a file
+    BufferedWriter bufferedWriter;
+    public ModifiedBaseListener(BufferedWriter bufferedWriter) {
+        this.bufferedWriter = bufferedWriter;
+    }
+
+    public ModifiedBaseListener() {
+        
+    }
+
     @Override
-    public void enterSimpleProgram(ModifiedCPP14GrammarParser.SimpleProgramContext ctx) {
+    public void enterSimpleProgram(ModifiedCPP14GrammarParser.SimpleProgramContext ctx){
         super.enterSimpleProgram(ctx);
         ArrayList<String> identifierNamesFromContext = new ArrayList<String>();
+        //bufferedWriter.write("[");
         for (ParseTree parseTree : ctx.children) {
 
             if(!identifierNamesFromContext.contains(parseTree.getText())) {
-                System.out.println(parseTree.getText());
+          //      bufferedWriter.write(" " + parseTree.getText() + ",");
                 identifierNamesFromContext.add(parseTree.getText());
             }
         }
+        //bufferedWriter.write("]");
+        //bufferedWriter.flush();
     }
 
     /*@Override
