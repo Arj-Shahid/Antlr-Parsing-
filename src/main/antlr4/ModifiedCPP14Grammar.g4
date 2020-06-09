@@ -125,8 +125,13 @@ fragment SemiColon:
 grammar ModifiedCPP14Grammar;
 
 simpleProgram:
-(Identifiernondigit )+ simpleProgram | EOF;
+( NamespacesWithUsing |  NamespacesWithoutUsing | Identifierdigit | Identifiernondigit)*;
 
+NamespacesWithUsing:
+(Using ' ' Namespace ' ' .*? ';') -> skip;
+
+NamespacesWithoutUsing:
+(Namespace ' ' .*?  '{') -> skip;
 
 Datatypes
 :   ( Char
@@ -136,7 +141,8 @@ Datatypes
      | Float
      | Double
      | Unsigned
-     | String) -> skip
+     | String
+     | Short) -> skip
      ;
 
 fragment Char
@@ -175,44 +181,113 @@ fragment String
     : 'string'
     ;
 
+fragment Short
+    : 'short'
+    ;
+
 Whitespace
    : [ \t]+ -> skip
    ;
 
 Keywords:
 ('new'
-    | 'class'
-    | 'this'
-    | 'return'
-    | 'if'
-    | 'else'
-    | 'while'
-    | 'for'
-    | 'case'
-    | 'using'
-    | 'namespace'
-    | 'std'
-    | 'static'
-    | 'NULL'
-    | 'true'
-    | 'false'
-    | 'const'
-    | 'void' )   -> skip;
+     | 'class'
+     | 'this'
+     | 'return'
+     | 'if'
+     | 'else'
+     | 'while'
+     | 'for'
+     | 'case'
+     | 'std'
+     | 'static'
+     | 'NULL'
+     | 'true'
+     | 'false'
+     | 'const'
+     | 'void'
+     | 'while'
+     | 'wchar_t'
+     | 'volatile'
+     | 'virtual'
+     | 'typename'
+     | 'typeid'
+     | 'typedef'
+     | 'try'
+     | 'throw'
+     | 'thread_local'
+     | 'template'
+     | 'switch'
+     | 'struct'
+     | 'static_cast'
+     | 'static_assert'
+     | 'sizeof'
+     | 'reinterpret_cast'
+     | 'register'
+     | 'public'
+     | 'operator'
+     | 'override'
+     | 'private'
+     | 'protected'
+     | 'public'
+     | 'register'
+     |  'reinterpret_cast'
+     | 'inline'
+     | 'mutable'
+     | 'new'
+     | 'noexcept'
+     | 'nullptr'
+     | 'enum'
+     | 'explicit'
+     | 'export'
+     | 'extern'
+     | 'final'
+     | 'friend'
+     | 'goto'
+     | 'const'
+     | 'constexpr'
+     | 'const_cast'
+     | 'continue'
+     | 'decltype'
+     | 'default'
+     | 'delete'
+     | 'do'
+     | 'dynamic_cast'
+     | 'alignas'
+     | 'alignof'
+     | 'asm'
+     | 'auto'
+     | 'break'
+     | 'catch'
+     | 'case'
+     | 'char16_t'
+     | 'char32_t') ->  skip;
+
+NonDomainIdentifiers:
+(     'theInstance'
+     | 'getInstance'
+     | '_OK'
+     | '_ERROR'
+     | '_EEPROM') -> skip
+ ;
+
+Atoms:
+('a'..'z' | 'A'..'Z') -> skip;
 
 Identifiernondigit
    : NONDIGIT
    | Keywords
    ;
 
-identifierdigit
-: DIGIT;
+Identifierdigit
+: DIGIT -> skip;
 
 DIGIT
-   : [0-9]+ -> skip
+   : [0-9]+
    ;
 
 fragment NONDIGIT
-   : AlphaNum*
+   : [a-zA-Z_]+
    ;
 
 fragment AlphaNum
@@ -317,3 +392,9 @@ BlockComment
 LineComment
    : '//' ~ [\r\n]* -> skip
    ;
+
+fragment Using:
+'using' ;
+
+fragment Namespace:
+'namespace' -> skip ;

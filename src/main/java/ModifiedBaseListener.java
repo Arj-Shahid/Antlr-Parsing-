@@ -11,25 +11,30 @@ public class ModifiedBaseListener extends ModifiedCPP14GrammarBaseListener {
         this.bufferedWriter = bufferedWriter;
     }
 
-    public ModifiedBaseListener() {
-        
-    }
-
     @Override
-    public void enterSimpleProgram(ModifiedCPP14GrammarParser.SimpleProgramContext ctx){
+    public void exitSimpleProgram(ModifiedCPP14GrammarParser.SimpleProgramContext ctx){
         super.enterSimpleProgram(ctx);
         ArrayList<String> identifierNamesFromContext = new ArrayList<String>();
-        //bufferedWriter.write("[");
-        for (ParseTree parseTree : ctx.children) {
+        try {
+            bufferedWriter.write("[");
+            for (ParseTree parseTree : ctx.children) {
 
-            if(!identifierNamesFromContext.contains(parseTree.getText())) {
-          //      bufferedWriter.write(" " + parseTree.getText() + ",");
-                identifierNamesFromContext.add(parseTree.getText());
+                if(!identifierNamesFromContext.contains(parseTree.getText())) {
+                    bufferedWriter.write(" " + parseTree.getText() + ",");
+                    identifierNamesFromContext.add(parseTree.getText());
+                }
             }
+            bufferedWriter.write("]");
+            bufferedWriter.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (NullPointerException nullPointerException) {
+            System.out.println("context might be empty");
         }
-        //bufferedWriter.write("]");
-        //bufferedWriter.flush();
     }
+
+
+
 
     /*@Override
     public void enterProgramDefinition(ModifiedCPP14GrammarParser.ProgramDefinitionContext ctx) {
