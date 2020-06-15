@@ -124,14 +124,23 @@ fragment SemiColon:
 
 grammar ModifiedCPP14Grammar;
 
-simpleProgram:
-( NamespacesWithUsing |  NamespacesWithoutUsing | Identifierdigit | Identifiernondigit)*;
+mainProgram:
+( NamespacesWithUsing |  NamespacesWithoutUsing | Identifierdigit | Identifiernondigit | FunctionBody)*;
 
 NamespacesWithUsing:
 (Using ' ' Namespace ' ' .*? ';') -> skip;
 
 NamespacesWithoutUsing:
 (Namespace ' ' .*?  '{') -> skip;
+
+fragment Using:
+'using' ;
+
+fragment Namespace:
+'namespace' -> skip ;
+
+FunctionBody:
+'{' ( ~('{' | '}') | FunctionBody)* '}' -> skip;
 
 Datatypes
 :   ( Char
@@ -144,6 +153,23 @@ Datatypes
      | String
      | Short) -> skip
      ;
+
+Identifiernondigit
+   : NONDIGIT
+   | Keywords
+   ;
+
+Identifierdigit
+: DIGIT -> skip;
+
+DIGIT
+   : [0-9]+
+   ;
+
+fragment NONDIGIT
+   : [a-zA-Z_]+
+   ;
+
 
 fragment Char
    : 'char'
@@ -274,45 +300,6 @@ NonDomainIdentifiers:
 Atoms:
 ('a'..'z' | 'A'..'Z') -> skip;
 
-Identifiernondigit
-   : NONDIGIT
-   | Keywords
-   ;
-
-Identifierdigit
-: DIGIT -> skip;
-
-DIGIT
-   : [0-9]+
-   ;
-
-fragment NONDIGIT
-   : [a-zA-Z_]+
-   ;
-
-fragment AlphaNum
-   : 'a'..'z' | 'A' .. 'Z' | '0'..'9';
-
-OpenRoundBracket
-:
-'(' -> skip
-;
-
-CloseRoundBracket
-:
-')' -> skip
-;
-
-OpenCurlyBracket
-:
-'{' -> skip
-;
-
-CloseCurlyBracket
-:
-'}' -> skip
-;
-
 Newline
    : ('\r' '\n'? | '\n') -> skip
    ;
@@ -368,7 +355,9 @@ Symbols:
     | '->*'
     | '->'
     | '\''
-    | '"' ) -> skip;
+    | '"'
+    | ')'
+     | '(') -> skip;
 
 
 Array:
@@ -392,9 +381,3 @@ BlockComment
 LineComment
    : '//' ~ [\r\n]* -> skip
    ;
-
-fragment Using:
-'using' ;
-
-fragment Namespace:
-'namespace' -> skip ;
